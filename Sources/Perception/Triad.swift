@@ -13,7 +13,7 @@ public struct Triad {
     
     public static let cardsRequired: Int = 3
     
-    static func triads(in cards: [Card]) -> [Triad] {
+    public static func triads(in cards: [Card]) -> [Triad] {
         var triads = [Triad]()
         
         guard cards.count >= Triad.cardsRequired else {
@@ -34,7 +34,7 @@ public struct Triad {
         return triads
     }
     
-    static func validate(cards: [Card]) throws {
+    public static func validate(cards: [Card]) throws {
         guard cards.count == Self.cardsRequired else {
             throw Error.numberOfCards
         }

@@ -1,4 +1,4 @@
-import Foundation
+import Perception
 
 /// The classic **SET** game play. 81 cards, 12 cards on the board.
 public class TraditionalGame: Game, Codable {

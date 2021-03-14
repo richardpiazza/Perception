@@ -1,4 +1,4 @@
-import Foundation
+import Perception
 
 public protocol Game {
     /// Prepares the game to be played.

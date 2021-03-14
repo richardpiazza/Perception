@@ -1,4 +1,4 @@
-import Foundation
+import Perception
 
 /// Find both sets to win.
 /// A card is highlighted which has two possible triads on the board.

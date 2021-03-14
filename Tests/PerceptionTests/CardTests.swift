@@ -105,5 +105,8 @@ final class CardTests: XCTestCase {
         let deck = Card.makeDeck()
         XCTAssertEqual(deck.count, 81)
         XCTAssertEqual(Set(deck).count, 81)
+        
+        let card = Card()
+        XCTAssertTrue(deck.contains(card))
     }
 }

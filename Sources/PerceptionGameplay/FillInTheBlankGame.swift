@@ -1,4 +1,4 @@
-import Foundation
+import Perception
 
 /// Two cards are given, options to complete the set are shown.
 public class FillInTheBlankGame: Game, Codable {

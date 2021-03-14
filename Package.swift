@@ -9,7 +9,7 @@ let package = Package(
         // Products define the executables and libraries a package produces, and make them visible to other packages.
         .library(
             name: "Perception",
-            targets: ["Perception"]),
+            targets: ["Perception", "PerceptionGameplay"]),
     ],
     dependencies: [
         // Dependencies declare other packages that this package depends on.
@@ -21,6 +21,12 @@ let package = Package(
         .target(
             name: "Perception",
             dependencies: []),
+        .target(
+            name: "PerceptionGameplay",
+            dependencies: ["Perception"]),
+        .testTarget(
+            name: "PerceptionGameplayTests",
+            dependencies: ["PerceptionGameplay"]),
         .testTarget(
             name: "PerceptionTests",
             dependencies: ["Perception"]),
