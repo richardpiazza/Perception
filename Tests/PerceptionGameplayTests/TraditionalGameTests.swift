@@ -1,7 +1,6 @@
 import XCTest
 @testable import Perception
 @testable import PerceptionGameplay
-@testable import PerceptionTests
 
 final class TraditionalGameTests: XCTestCase {
     
