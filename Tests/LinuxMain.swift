@@ -1,6 +1,7 @@
 import XCTest
 
 import PerceptionTests
+import PerceptionGameplayTests
 
 var tests = [XCTestCaseEntry]()
 tests += PerceptionGameplayTests.allTests()
