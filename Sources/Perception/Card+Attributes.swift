@@ -1,0 +1,40 @@
+import Foundation
+
+public extension Card {
+    enum Number: String, CaseIterable, Equatable, Codable, CustomStringConvertible {
+        case one
+        case two
+        case three
+        
+        public static var random: Number { allCases.randomElement()! }
+        public var description: String { rawValue.capitalized }
+    }
+
+    enum Fill: String, CaseIterable, Equatable, Codable, CustomStringConvertible {
+        case outlined
+        case shaded
+        case solid
+        
+        public static var random: Fill { allCases.randomElement()! }
+        public var description: String { rawValue.capitalized }
+    }
+    
+    enum Color: String, CaseIterable, Equatable, Codable, CustomStringConvertible {
+        case light
+        case medium
+        case dark
+        
+        public static var random: Color { allCases.randomElement()! }
+        public var description: String { rawValue.capitalized }
+    }
+    
+    enum Shape: String, CaseIterable, Equatable, Codable, CustomStringConvertible {
+        case circle
+        case square
+        case star
+        
+        public static var random: Shape { allCases.randomElement()! }
+        public var description: String { rawValue.capitalized }
+    }
+}
+
