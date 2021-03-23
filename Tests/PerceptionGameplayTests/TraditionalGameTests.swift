@@ -96,6 +96,12 @@ final class TraditionalGameTests: XCTestCase {
         XCTAssertEqual(game.selected.count, 0)
     }
     
+    func testDeal_doubleInvalidDeal() {
+        game.deck = .invalidBoard_requires2Deals
+        XCTAssertNoThrow(try game.deal())
+        XCTAssertEqual(game.board.count, 18)
+    }
+    
     func testPlay() throws {
         game.deck = .validBoard_3Triads_remainingDeck
         game.board = .validBoard_3Triads

@@ -50,4 +50,27 @@ extension Array where Element == Card {
             .init(number: .three, fill: .outlined, color: .medium, shape: .circle),
         ]
     }
+    
+    static var invalidBoard_requires2Deals: [Card] {
+        [
+            .init(number: .three, fill: .solid, color: .medium, shape: .circle),
+            .init(number: .three, fill: .outlined, color: .medium, shape: .star),
+            .init(number: .two, fill: .solid, color: .dark, shape: .circle),
+            .init(number: .two, fill: .shaded, color: .light, shape: .square),
+            .init(number: .two, fill: .outlined, color: .dark, shape: .circle),
+            .init(number: .one, fill: .shaded, color: .medium, shape: .circle),
+            .init(number: .three, fill: .outlined, color: .dark, shape: .square),
+            .init(number: .two, fill: .outlined, color: .medium, shape: .square),
+            .init(number: .one, fill: .outlined, color: .light, shape: .circle),
+            .init(number: .one, fill: .solid, color: .medium, shape: .star),
+            .init(number: .three, fill: .shaded, color: .dark, shape: .square),
+            .init(number: .three, fill: .solid, color: .dark, shape: .star),
+            .init(number: .one, fill: .outlined, color: .dark, shape: .square),
+            .init(number: .two, fill: .solid, color: .dark, shape: .star),
+            .init(number: .two, fill: .outlined, color: .dark, shape: .star),
+            .init(number: .one, fill: .outlined, color: .light, shape: .star),
+            .init(number: .two, fill: .solid, color: .light, shape: .circle),
+            .init(number: .three, fill: .solid, color: .light, shape: .star),
+        ]
+    }
 }

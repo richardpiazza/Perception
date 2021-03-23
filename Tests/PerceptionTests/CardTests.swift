@@ -98,7 +98,11 @@ final class CardTests: XCTestCase {
         card = Card(number: .three, fill: .solid, color: .light, shape: .square)
         data = try encoder.encode(card)
 
-        XCTAssertEqual(data, "{\"number\":\"three\",\"fill\":\"solid\",\"shape\":\"square\",\"color\":\"light\"}".data(using: .utf8))
+        let dictionary = try XCTUnwrap(try JSONSerialization.jsonObject(with: data, options: .init()) as? [String: Any])
+        XCTAssertEqual(dictionary["number"] as? String, Card.Number.three.rawValue)
+        XCTAssertEqual(dictionary["fill"] as? String, Card.Fill.solid.rawValue)
+        XCTAssertEqual(dictionary["color"] as? String, Card.Color.light.rawValue)
+        XCTAssertEqual(dictionary["shape"] as? String, Card.Shape.square.rawValue)
     }
     
     func testMakeDeck() throws {
