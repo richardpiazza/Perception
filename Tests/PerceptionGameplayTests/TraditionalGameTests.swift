@@ -16,14 +16,14 @@ final class TraditionalGameTests: XCTestCase {
     let game = TraditionalGame()
     
     // Taken from [Card].validBoard_3Triads
-    let triad2 = try! Triad([
+    let triad2 = try! Trio([
         .init(number: .two, fill: .outlined, color: .dark, shape: .star),
         .init(number: .two, fill: .solid, color: .dark, shape: .star),
         .init(number: .two, fill: .shaded, color: .dark, shape: .star),
     ])
     
     // Taken from [Card].validBoard_3Triads
-    let triad3 = try! Triad([
+    let triad3 = try! Trio([
         .init(number: .one, fill: .outlined, color: .medium, shape: .circle),
         .init(number: .one, fill: .outlined, color: .dark, shape: .star),
         .init(number: .one, fill: .outlined, color: .light, shape: .square),
@@ -70,7 +70,7 @@ final class TraditionalGameTests: XCTestCase {
         
         // Empty Deck, No Plays Available
         XCTAssertThrowsError(try game.deal()) { (error) in
-            guard let gameError = error as? TraditionalGame.Error else {
+            guard let gameError = error as? PerceptionGameplayError else {
                 return XCTFail("Unexpected Error")
             }
             
@@ -85,7 +85,7 @@ final class TraditionalGameTests: XCTestCase {
         cards.append(contentsOf: [Card].invalidBoard_0Triads_requiresAdditionalDeal)
         cards.append(contentsOf: [Card].invalidBoard_0Triads_nextDeal)
         XCTAssertEqual(Set(cards).count, 15)
-        XCTAssertFalse(Triad.triads(in: cards).isEmpty)
+        XCTAssertFalse(cards.trios.isEmpty)
         
         game.deck = cards
         XCTAssertNoThrow(try game.deal())
@@ -113,7 +113,7 @@ final class TraditionalGameTests: XCTestCase {
         
         let invalid: Card = .init(number: .one, fill: .outlined, color: .light, shape: .circle)
         XCTAssertThrowsError(try game.play(invalid)) { (error) in
-            guard let gameError = error as? TraditionalGame.Error else {
+            guard let gameError = error as? PerceptionGameplayError else {
                 return XCTFail("Unexpected Error")
             }
             
@@ -131,7 +131,7 @@ final class TraditionalGameTests: XCTestCase {
         XCTAssertEqual(game.selected.count, 2)
         
         XCTAssertThrowsError(try game.play(triad3.third)) { (error) in
-            XCTAssertEqual(error as? Triad.Error, .numberAttribute)
+            XCTAssertEqual(error as? PerceptionError, .numberAttribute)
         }
         
         try game.play(triad2.first)

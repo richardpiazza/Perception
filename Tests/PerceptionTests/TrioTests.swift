@@ -1,33 +1,28 @@
 import XCTest
 @testable import Perception
 
-final class TriadTests: XCTestCase {
-    
-    static var allTests = [
-        ("testTriadsIn", testTriadsIn),
-        ("testValidate", testValidate),
-    ]
+final class TrioTests: XCTestCase {
     
     func testTriadsIn() {
-        var triads = Triad.triads(in: [])
-        XCTAssertEqual(triads.count, 0)
+        var trios = [Card]().trios
+        XCTAssertEqual(trios.count, 0)
         
         var cards: [Card] = .invalidBoard_0Triads_requiresAdditionalDeal
-        triads = Triad.triads(in: cards)
-        XCTAssertEqual(triads.count, 0)
+        trios = cards.trios
+        XCTAssertEqual(trios.count, 0)
         XCTAssertEqual(Set(cards).count, 12) // No duplicate cards
         
         cards = .validBoard_3Triads
-        triads = Triad.triads(in: cards)
-        XCTAssertEqual(triads.count, 3)
+        trios = cards.trios
+        XCTAssertEqual(trios.count, 3)
         XCTAssertEqual(Set(cards).count, 12) // No duplicate cards
     }
     
     func testValidate() throws {
         var cards: [Card] = []
         
-        XCTAssertThrowsError(try Triad.validate(cards: cards)) { (error) in
-            XCTAssertEqual(error as? Triad.Error, .numberOfCards)
+        XCTAssertThrowsError(try cards.validateTrio()) { error in
+            XCTAssertEqual(error as? PerceptionError, .numberOfCards)
         }
         
         cards = [
@@ -36,8 +31,8 @@ final class TriadTests: XCTestCase {
             .init(number: .one, fill: .outlined, color: .dark, shape: .circle),
         ]
         
-        XCTAssertThrowsError(try Triad.validate(cards: cards)) { (error) in
-            XCTAssertEqual(error as? Triad.Error, .uniqueCards)
+        XCTAssertThrowsError(try cards.validateTrio()) { error in
+            XCTAssertEqual(error as? PerceptionError, .uniqueCards)
         }
         
         cards = [
@@ -46,8 +41,8 @@ final class TriadTests: XCTestCase {
             .init(number: .two, fill: .solid, color: .dark, shape: .circle),
         ]
         
-        XCTAssertThrowsError(try Triad.validate(cards: cards)) { (error) in
-            XCTAssertEqual(error as? Triad.Error, .numberAttribute)
+        XCTAssertThrowsError(try cards.validateTrio()) { error in
+            XCTAssertEqual(error as? PerceptionError, .numberAttribute)
         }
         
         cards = [
@@ -56,8 +51,8 @@ final class TriadTests: XCTestCase {
             .init(number: .three, fill: .shaded, color: .dark, shape: .circle),
         ]
         
-        XCTAssertThrowsError(try Triad.validate(cards: cards)) { (error) in
-            XCTAssertEqual(error as? Triad.Error, .fillAttribute)
+        XCTAssertThrowsError(try cards.validateTrio()) { error in
+            XCTAssertEqual(error as? PerceptionError, .fillAttribute)
         }
         
         cards = [
@@ -66,8 +61,8 @@ final class TriadTests: XCTestCase {
             .init(number: .three, fill: .solid, color: .medium, shape: .circle),
         ]
         
-        XCTAssertThrowsError(try Triad.validate(cards: cards)) { (error) in
-            XCTAssertEqual(error as? Triad.Error, .colorAttribute)
+        XCTAssertThrowsError(try cards.validateTrio()) { error in
+            XCTAssertEqual(error as? PerceptionError, .colorAttribute)
         }
         
         cards = [
@@ -76,8 +71,8 @@ final class TriadTests: XCTestCase {
             .init(number: .three, fill: .solid, color: .dark, shape: .square),
         ]
         
-        XCTAssertThrowsError(try Triad.validate(cards: cards)) { (error) in
-            XCTAssertEqual(error as? Triad.Error, .shapeAttribute)
+        XCTAssertThrowsError(try cards.validateTrio()) { error in
+            XCTAssertEqual(error as? PerceptionError, .shapeAttribute)
         }
         
         cards = [
@@ -86,9 +81,9 @@ final class TriadTests: XCTestCase {
             .init(number: .three, fill: .solid, color: .dark, shape: .circle),
         ]
         
-        XCTAssertNoThrow(try Triad.validate(cards: cards))
+        XCTAssertNoThrow(try cards.validateTrio())
         
-        let triad = try Triad(cards)
+        let triad = try Trio(cards)
         XCTAssertEqual(triad.first, cards[0])
         XCTAssertEqual(triad.second, cards[1])
         XCTAssertEqual(triad.third, cards[2])

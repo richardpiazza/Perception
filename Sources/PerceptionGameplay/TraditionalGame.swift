@@ -3,6 +3,7 @@ import Perception
 /// The classic **SET** game play. 81 cards, 12 cards on the board.
 public class TraditionalGame: Game, Codable {
     
+    @available(*, deprecated, renamed: "PerceptionGameplayError")
     public enum Error: Swift.Error {
         case gameOver
         case deal(cardsRequested: Int, cardsAvailable: Int)
@@ -17,6 +18,9 @@ public class TraditionalGame: Game, Codable {
     public internal(set) var discard: [Card] = []
     public internal(set) var selected: [Card] = []
     
+    public var availablePlays: [Trio] { board.trios }
+    public var gameOver: Bool { deck.isEmpty && availablePlays.isEmpty }
+    
     public init() {
     }
     
@@ -29,7 +33,7 @@ public class TraditionalGame: Game, Codable {
     
     public func deal() throws {
         guard !gameOver else {
-            throw Error.gameOver
+            throw PerceptionGameplayError.gameOver
         }
         
         let triads = availablePlays
@@ -45,7 +49,7 @@ public class TraditionalGame: Game, Codable {
             // Endgame conditions
             guard hasPlays else {
                 // Not sure this is even possible, but it protects against the handling below.
-                throw Error.deal(cardsRequested: cardsToDeal, cardsAvailable: deck.count)
+                throw PerceptionGameplayError.deal(cardsRequested: cardsToDeal, cardsAvailable: deck.count)
             }
             
             return
@@ -62,7 +66,7 @@ public class TraditionalGame: Game, Codable {
     
     public func play(_ card: Card) throws {
         guard board.contains(card) else {
-            throw Error.cardNotPlayable(card)
+            throw PerceptionGameplayError.cardNotPlayable(card)
         }
         
         // If previously selected, deselect.
@@ -73,12 +77,12 @@ public class TraditionalGame: Game, Codable {
         
         selected.append(card)
         
-        guard selected.count == Triad.cardsRequired else {
+        guard selected.count == Trio.cardsRequired else {
             return
         }
         
         do {
-            try Triad.validate(cards: selected)
+            try selected.validateTrio()
         } catch {
             selected.removeAll()
             throw error
@@ -97,7 +101,24 @@ public class TraditionalGame: Game, Codable {
     }
 }
 
-public extension TraditionalGame {
-    var availablePlays: [Triad] { Triad.triads(in: board) }
-    var gameOver: Bool { deck.isEmpty && availablePlays.isEmpty }
+extension TraditionalGame: Equatable {
+    public static func == (lhs: TraditionalGame, rhs: TraditionalGame) -> Bool {
+        guard lhs.deck == rhs.deck else {
+            return false
+        }
+        
+        guard lhs.board == rhs.board else {
+            return false
+        }
+        
+        guard lhs.discard == rhs.discard else {
+            return false
+        }
+        
+        guard lhs.selected == rhs.selected else {
+            return false
+        }
+        
+        return true
+    }
 }
