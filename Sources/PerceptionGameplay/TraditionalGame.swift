@@ -20,6 +20,19 @@ public class TraditionalGame: Game, Codable {
     
     public var availablePlays: [Trio] { board.trios }
     public var gameOver: Bool { deck.isEmpty && availablePlays.isEmpty }
+    public var inProgress: Bool {
+        if board.isEmpty {
+            return false
+        }
+        if availablePlays.isEmpty {
+            return false
+        }
+        if gameOver {
+            return false
+        }
+        
+        return true
+    }
     
     public init() {
     }

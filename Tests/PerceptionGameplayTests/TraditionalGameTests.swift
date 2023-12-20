@@ -4,15 +4,6 @@ import XCTest
 
 final class TraditionalGameTests: XCTestCase {
     
-    static var allTests = [
-        ("testShuffle", testShuffle),
-        ("testDeal", testDeal),
-        ("testDeal_gameOverConditions", testDeal_gameOverConditions),
-        ("testDeal_invalidInitialDeal", testDeal_invalidInitialDeal),
-        ("testPlay", testPlay),
-        ("testReshuffleDiscard", testReshuffleDiscard),
-    ]
-    
     let game = TraditionalGame()
     
     // Taken from [Card].validBoard_3Triads
@@ -182,5 +173,12 @@ final class TraditionalGameTests: XCTestCase {
         XCTAssertEqual(game.board.count, 12)
         XCTAssertEqual(game.discard.count, 0)
         XCTAssertEqual(game.selected.count, 0)
+    }
+    
+    func testInProgress() throws {
+        XCTAssertFalse(game.inProgress)
+        game.shuffle()
+        try game.deal()
+        XCTAssertTrue(game.inProgress)
     }
 }
