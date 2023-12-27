@@ -16,3 +16,11 @@ public protocol Game {
     /// Processes a `Card`.
     func play(_ card: Card) throws
 }
+
+public extension Game {
+    /// Return the `Game` to an initial playable state by _shuffling_ (`shuffle()`) and _dealing_ (`deal()`).
+    func restart() throws {
+        shuffle()
+        try deal()
+    }
+}
