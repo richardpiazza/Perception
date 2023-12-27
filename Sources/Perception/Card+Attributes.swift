@@ -38,3 +38,26 @@ public extension Card {
     }
 }
 
+public extension Array where Element == Card.Number {
+    var allEqual: Bool { Set(self).count == 1 }
+    var allUnique: Bool { Set(self).count == count }
+    var allEqualOrAllUnique: Bool { allEqual || allUnique }
+}
+
+public extension Array where Element == Card.Fill {
+    var allEqual: Bool { Set(self).count == 1 }
+    var allUnique: Bool { Set(self).count == count }
+    var allEqualOrAllUnique: Bool { allEqual || allUnique }
+}
+
+public extension Array where Element == Card.Color {
+    var allEqual: Bool { Set(self).count == 1 }
+    var allUnique: Bool { Set(self).count == count }
+    var allEqualOrAllUnique: Bool { allEqual || allUnique }
+}
+
+public extension Array where Element == Card.Shape {
+    var allEqual: Bool { Set(self).count == 1 }
+    var allUnique: Bool { Set(self).count == count }
+    var allEqualOrAllUnique: Bool { allEqual || allUnique }
+}

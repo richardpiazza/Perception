@@ -1,16 +1,26 @@
 import Perception
 
 public protocol Game {
-    /// Prepares the game to be played.
-    /// All card are returned to the deck and randomized.
+    /// Prepares the `Game` to be played.
+    ///
+    /// All `Card`s are returned to the deck and randomized.
     func shuffle()
     
-    /// Ready the game for play.
+    /// Ready the _board_ for continued play.
+    ///
     /// Cards are drawn from the deck until the board is in a playable state.
     ///
-    /// - throws Game errors (primarily 'game-over' indications).
+    /// - throws `PerceptionGameplayError` (primarily 'game-over' indications).
     func deal() throws
     
-    /// Processes a card.
+    /// Processes a `Card`.
     func play(_ card: Card) throws
+}
+
+public extension Game {
+    /// Return the `Game` to an initial playable state by _shuffling_ (`shuffle()`) and _dealing_ (`deal()`).
+    func restart() throws {
+        shuffle()
+        try deal()
+    }
 }

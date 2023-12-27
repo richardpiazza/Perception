@@ -38,15 +38,15 @@ public class FillInTheBlankGame: Game, Codable {
         let deck = Card.makeDeck().shuffled()
         var seed = Array(deck.prefix(16))
         
-        guard let triad = Triad.triads(in: seed).randomElement() else {
+        guard let trio = seed.trios.randomElement() else {
             try deal()
             return
         }
         
-        pair = (triad.first, triad.second)
-        var cards = [triad.third]
+        pair = (trio.first, trio.second)
+        var cards = [trio.third]
         
-        seed.removeAll(where: { triad.cards.contains($0) })
+        seed.removeAll(where: { trio.cards.contains($0) })
         
         while cards.count < 6 {
             seed.shuffle()
@@ -59,6 +59,20 @@ public class FillInTheBlankGame: Game, Codable {
     
     public func play(_ card: Card) throws {
         let cards = [pair.0, pair.1, card]
-        try Triad.validate(cards: cards)
+        try cards.validateTrio()
+    }
+}
+
+extension FillInTheBlankGame: Equatable {
+    public static func == (lhs: FillInTheBlankGame, rhs: FillInTheBlankGame) -> Bool {
+        guard lhs.pair == rhs.pair else {
+            return false
+        }
+        
+        guard lhs.board == rhs.board else {
+            return false
+        }
+        
+        return true
     }
 }

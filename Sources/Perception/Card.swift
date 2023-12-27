@@ -7,7 +7,12 @@ public struct Card: Hashable, Codable {
     public let color: Color
     public let shape: Shape
     
-    public init(number: Number = .random, fill: Fill = .random, color: Color = .random, shape: Shape = .random) {
+    public init(
+        number: Number = .random,
+        fill: Fill = .random,
+        color: Color = .random,
+        shape: Shape = .random
+    ) {
         self.number = number
         self.fill = fill
         self.color = color
@@ -16,7 +21,15 @@ public struct Card: Hashable, Codable {
 }
 
 extension Card: Identifiable {
-    public var id: String { [number.rawValue, fill.rawValue, color.rawValue, shape.rawValue].joined(separator: ",") }
+    public var id: String {
+        [
+            number.rawValue,
+            fill.rawValue,
+            color.rawValue,
+            shape.rawValue
+        ]
+            .joined(separator: ",")
+    }
 }
 
 extension Card: CustomStringConvertible {
@@ -33,23 +46,5 @@ extension Card: CustomDebugStringConvertible {
             -  color: \(color)
             -  shape: \(shape)
         """
-    }
-}
-
-public extension Card {
-    static func makeDeck() -> [Card] {
-        var cards: [Card] = [Card]()
-        
-        Card.Number.allCases.forEach { (number) in
-            Card.Fill.allCases.forEach { (fill) in
-                Card.Color.allCases.forEach { (color) in
-                    Card.Shape.allCases.forEach { (shape) in
-                        cards.append(Card(number: number, fill: fill, color: color, shape: shape))
-                    }
-                }
-            }
-        }
-        
-        return cards
     }
 }
